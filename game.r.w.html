@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="g.style.css">
+<title>deneme_3</title>
+<style>
+
+
+
+</style>
+</head>
+<body>
+
+<a href="file:///home/chronos/u-247a01f817a9ec8596bd3d0ec351b6503a263ad3/MyFiles/tr/codes/website/index.html" type="button">teleport</a>
+
+<button class="buttonsiden" onclick="showSimulationForm()">Play The Game</button>
+
+<div class="form-container" id="simulationForm">
+  <h3>How many simulations would you like to run?</h3>
+  <input type="number" id="simulationCountInput" min="1" step="1">
+  <button onclick="startSimulation()">Start</button>
+</div>
+
+<div class="result-container" id="simulationResult">
+  <h3>Simulation Results</h3>
+  <div id="simulationOutput"></div>
+  <p id="summary"></p>
+</div>
+
+<script>
+// Function to show simulation form
+function showSimulationForm() {
+  document.getElementById("simulationForm").style.display = "block";
+  document.getElementById("simulationResult").style.display = "none";
+}
+
+// Function to start simulation
+function startSimulation() {
+  // Get the number of simulations to run
+  var simulationCount = document.getElementById("simulationCountInput").value;
+
+  // Initialize counters for falling into left and right ditch
+  var leftDitchCount = 0;
+  var rightDitchCount = 0;
+
+  // Initialize counter for total steps taken before falling into ditch
+  var totalSteps = 0;
+
+  // Run the simulation for the specified number of times
+  var results = "";
+  for (var j = 0; j < simulationCount; j++) {
+      var result = simulateGame();
+      results += "Game " + (j + 1) + ": " + result.message + "<br>";
+
+      // Update counters based on simulation result
+      if (result.direction === "Left") {
+          leftDitchCount++;
+      } else if (result.direction === "Right") {
+          rightDitchCount++;
+      }
+
+      // Update total steps
+      totalSteps += result.steps;
+  }
+
+  // Calculate average number of steps before falling into ditch
+  var averageSteps = totalSteps / simulationCount;
+
+  // Display the results and summary
+  document.getElementById("simulationOutput").innerHTML = results;
+  document.getElementById("summary").innerHTML = "Average number of steps before falling into ditch: " + averageSteps.toFixed(2) + "<br>" +
+                                                   "Probability of falling into left ditch: " + (leftDitchCount / simulationCount).toFixed(2) + "<br>" +
+                                                   "Probability of falling into right ditch: " + (rightDitchCount / simulationCount).toFixed(2);
+  document.getElementById("simulationForm").style.display = "none";
+  document.getElementById("simulationResult").style.display = "block";
+}
+
+// Function to simulate the game
+function simulateGame() {
+  // Initialize player's position in the middle
+  var playerPosition = 0;
+  var steps = 0;
+  var gameLog = "";
+
+  // Play the game until the player falls into the ditch
+  while (Math.abs(playerPosition) < 3) {
+      // Simulate a coin flip (0 for left, 1 for right)
+      var step = Math.round(Math.random());
+
+      // If 0, move player one step to the left; if 1, move player one step to the right
+      if (step === 0) {
+          playerPosition--;
+          gameLog += "Left, ";
+      } else {
+          playerPosition++;
+          gameLog += "Right, ";
+      }
+
+      // Increment steps
+      steps++;
+  }
+
+  // Determine the result based on player's final position
+  var result = {};
+  if (playerPosition < 0) {
+      result.direction = "Left";
+      result.message = gameLog + "you fell into the left ditch!";
+  } else {
+      result.direction = "Right";
+      result.message = gameLog + "you fell into the right ditch!";
+  }
+
+  // Add total steps to the result
+  result.steps = steps;
+
+  return result;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+body {
+    text-align: justify;
+    font-family: rockwell;
+    /*background: url(picture/WhatsApp\ Image\ 2024-03-21\ at\ 4.00.11\ PM.jpeg);*/
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0)
+}
+
+.buttonsiden {
+    border: 10px;
+    border-color: black;
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    width: 160px;
+    height: 26px;
+    text-align: center;
+    font-size: 15px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    width: 1500px;
+}
+
+.form-container {
+    display: none;
+    text-align: center;
+  }
+  .result-container {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+  }
